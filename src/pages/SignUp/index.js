@@ -1,22 +1,22 @@
 import React, { useState, useContext } from 'react';
 import { Platform } from 'react-native';
-import { useNavigation } from '@react-navigation/core';
+
 import { AuthContext } from '../../contexts/auth';
 
 import {
 	Background, Container, Logo, AreaInput, Input, SubmitButton,
-	SubmitText, Link, LinkText
-} from './styles';
+	SubmitText
+} from '../SignIn/styles';
 
-export default function SignIn() {
-	const navigation = useNavigation();
+export default function SignUp() {
+	const [nome, setNome] = useState('Paulinho');
+	const [email, setEmail] = useState('paulinho@agencia3w.com.br');
+	const [password, setPassword] = useState('123456');
 
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	const { signIn } = useContext(AuthContext);
+	const { signUp } = useContext(AuthContext);
 
-	function handleLogin() {
-		signIn(email, password);
+	function handleSignUp() {
+		signUp(email, password, nome);
 	}
 
 	return (
@@ -25,7 +25,16 @@ export default function SignIn() {
 				behavior={Platform.OS === 'ios' ? 'padding' : ''}
 				enabled
 			>
-				<Logo source={require('../../assets/Logo.png')} />
+
+				<AreaInput>
+					<Input
+						placeholder="Nome"
+						autoCorrect={false}
+						autoCapitalize="none"
+						value={nome}
+						onChangeText={(text) => setNome(text)}
+					/>
+				</AreaInput>
 
 				<AreaInput>
 					<Input
@@ -43,18 +52,13 @@ export default function SignIn() {
 						autoCorrect={false}
 						autoCapitalize="none"
 						value={password}
-						secureTextEntry
 						onChangeText={(text) => setPassword(text)}
 					/>
 				</AreaInput>
 
-				<SubmitButton onPress={handleLogin}>
-					<SubmitText>Acessar</SubmitText>
+				<SubmitButton onPress={handleSignUp}>
+					<SubmitText>Cadastrar</SubmitText>
 				</SubmitButton>
-
-				<Link onPress={() => navigation.navigate('SignUp')}>
-					<LinkText>Criar uma conta!</LinkText>
-				</Link>
 
 			</Container>
 		</Background>
