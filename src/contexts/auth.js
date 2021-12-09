@@ -9,6 +9,7 @@ export const AuthContext = createContext({});
 function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [loadingAuth, setLoadingAuth] = useState(false);
 
     useEffect(() => {
         async function loadStorage() {
@@ -28,6 +29,7 @@ function AuthProvider({ children }) {
     const db = getDatabase();
 
     async function signIn(email, password) {
+        setLoadingAuth(true);
         const response = await signInWithEmailAndPassword(auth, email, password)
             .then(async (value) => {
                 const uid = value.user.uid;
@@ -39,14 +41,18 @@ function AuthProvider({ children }) {
                     };
                     setUser(data);
                     storageUser(data);
+
+                    setLoadingAuth(false);
                 });
             })
             .catch((error) => {
                 alert(error.code);
+                setLoadingAuth(false);
             })
     }
 
     async function signUp(email, password, nome) {
+        setLoadingAuth(true);
         const response = await createUserWithEmailAndPassword(auth, email, password)
             .then(async (value) => {
                 const uid = value.user.uid;
@@ -62,9 +68,11 @@ function AuthProvider({ children }) {
                         };
                         setUser(data);
                         storageUser(data);
+                        setLoadingAuth(false);
                     })
             }).catch((error) => {
-                return console.log(error.message);
+                alert(error.code);
+                setLoadingAuth(false);
             })
     }
 
@@ -78,7 +86,7 @@ function AuthProvider({ children }) {
     }
 
     return (
-        <AuthContext.Provider value={{ signed: !!user, user, loading, signUp, signIn, logout }}>
+        <AuthContext.Provider value={{ signed: !!user, user, loading, loadingAuth, signUp, signIn, logout }}>
             {children}
         </AuthContext.Provider>
     )
