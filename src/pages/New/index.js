@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Alert, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { getDatabase, onValue, set, ref, push, child } from 'firebase/database'
+import { getDatabase, onValue, set, update, ref, push, child } from 'firebase/database'
 import { AuthContext } from '../../contexts/auth';
 import { Header } from '../../components/Header';
 import { Picker } from '../../components/Picker';
@@ -53,7 +53,7 @@ export function New() {
         await set(ref(db, `/historico/${user.uid}/${keyRandom}`), {
             tipo,
             valor: parseFloat(valor),
-            date: format(new Date(), 'dd/MM/yy')
+            date: format(new Date(), 'dd/MM/yyyy')
         });
 
         // Atualizando o saldo
@@ -62,7 +62,7 @@ export function New() {
             tipo === 'despesa' ? saldo -= parseFloat(valor) : saldo += parseFloat(valor);
             console.log('saldo ' + saldo);
 
-            set(ref(db, `/users/${user.uid}`), {
+            update(ref(db, `/users/${user.uid}`), {
                 saldo
             });
         }, {
