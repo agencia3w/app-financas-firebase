@@ -15,6 +15,30 @@ export const Nome = styled.Text`
     color: #FFFFFF;
 `;
 
+export const Row = styled.View`
+    flex-direction: row;
+    justify-content: space-between;
+`;
+
+export const Row2 = styled.View`
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+    margin-left: 15px;
+`;
+
+export const DateButton = styled.TouchableOpacity``;
+
+export const Add = styled.TouchableOpacity`
+    background: #00B940;
+    width: 50px;
+    height: 50px;
+    border-radius: 100px;
+    justify-content: center;
+    align-items: center;
+    margin-right: 5px;
+`;
+
 export const Saldo = styled.Text`
     margin-top: 5px;
     font-size: 30px;
@@ -23,9 +47,8 @@ export const Saldo = styled.Text`
 `;
 
 export const Title = styled.Text`
-    margin-left: 15px;
+    margin-left: 5px;
     color: #00B940;
-    margin-bottom: 10px;
 `;
 
 export const List = styled.FlatList.attrs({
